@@ -1,0 +1,24 @@
+services:
+  cdk:
+    build: 
+      context: ./cdk
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: .
+        target: /src
+    working_dir: /src
+    tty: true
+
+  go-lambda:
+    build: 
+      context: ./lambda
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ./lambda
+        target: /src
+    working_dir: /src
+    ports:
+      - 8080:80
+    tty: true
