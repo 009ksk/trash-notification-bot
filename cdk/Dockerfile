@@ -5,7 +5,7 @@ RUN npm install -g aws-cdk
 
 WORKDIR /app
 
-# COPY package*.json ./
-# RUN npm install
+COPY package*.json ./
+RUN npm install
 
 COPY . .
