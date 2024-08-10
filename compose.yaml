@@ -1,24 +1,21 @@
 services:
-  cdk:
-    build: 
-      context: ./cdk
+  app:
+    build:
+      context: .
       dockerfile: Dockerfile
+    image: app-nodejs-image:latest
+    container_name: app
     volumes:
-      - type: bind
-        source: .
-        target: /src
-    working_dir: /src
-    tty: true
-
-  go-lambda:
-    build: 
-      context: ./lambda
-      dockerfile: Dockerfile
-    volumes:
-      - type: bind
-        source: ./lambda
-        target: /src
-    working_dir: /src
-    ports:
-      - 8080:80
+      - ./:/app
+      - ~/.aws:/root/.aws
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - STACK_NAME
+      - AWS_DEFAULT_REGION
+      - AWS_REGION
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+      - CDK_DEFAULT_ACCOUNT
+      - CDK_DEFAULT_REGION
     tty: true
